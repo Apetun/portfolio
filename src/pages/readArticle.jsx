@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
 
 import NavBar from "../components/common/navBar";
 import Footer from "../components/common/footer";
+import VariableProximity from "../components/common/VariableProximity";
 
 
 import INFO from "../data/user";
@@ -17,6 +18,7 @@ let ArticleStyle = styled.div``;
 const ReadArticle = () => {
 	const navigate = useNavigate();
 	let { slug } = useParams();
+	const titleRef = useRef(null);
 
 	const article = myArticles[slug - 1];
 
@@ -60,7 +62,19 @@ const ReadArticle = () => {
 							</div>
 
 							<div className="title read-article-title">
-								{article().title}
+								<div ref={titleRef} style={{ position: "relative" }}>
+									<VariableProximity
+										label={article().title}
+										className="variable-proximity-demo"
+										fromFontVariationSettings="'wght' 800, 'opsz' 24"
+										toFontVariationSettings="'wght' 900, 'opsz' 24"
+										fontFamily="'Roboto Flex', 'Roboto', var(--secondary-font)"
+										fontWeight={900}
+										containerRef={titleRef}
+										radius={140}
+										falloff="linear"
+									/>
+								</div>
 							</div>
 
 							<div className="read-article-body">

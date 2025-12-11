@@ -10,6 +10,7 @@ import ReadArticle from "./pages/readArticle";
 import Contact from "./pages/contact";
 import Notfound from "./pages/404";
 import Resume from "./pages/resume";
+import Terminal from "./pages/terminal";
 
 import { TRACKING_ID } from "./data/tracking";
 import "./app.css";
@@ -27,7 +28,8 @@ function App() {
 	return (
 		<div className="App">
 			<Routes>
-				<Route path="/portfolio/" element={<Homepage />} />
+				<Route path="/portfolio/" element={<Terminal />} />
+				<Route path="/portfolio/home" element={<Homepage />} />
 				<Route path="/portfolio/about" element={<About />} />
 				<Route path="/portfolio/projects" element={<Projects />} />
 				<Route path="/portfolio/articles" element={<Articles />} />

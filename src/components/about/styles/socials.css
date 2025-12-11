@@ -1,36 +1,48 @@
 @import "../../../data/styles.css";
+
 .social,
 .email-wrapper {
 	display: flex;
 	padding-bottom: 20px;
+	transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	cursor: pointer;
+}
+
+.social:hover,
+.email-wrapper:hover {
+	transform: translateY(-3px) scale(1.05);
+	filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
 }
 
 .social a,
 .email-wrapper a {
 	text-decoration: none;
+	display: flex;
+	align-items: center;
+	width: 100%;
 }
 
 .social-icon {
 	font-size: 15px;
 	color: var(--secondary-color);
+	transition: color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .social-text {
 	color: var(--secondary-color);
 	padding-left: 30px;
-	margin-top: -20px;
+	margin-top: 0;
 	font-weight: 600;
 	font-size: 14px;
+	transition: color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.email::before {
-	content: "";
-	display: block;
-	padding-top: 20px;
-	border-top: 3px solid #f4f4f5;
-	margin-top: 20px;
+.social:hover .social-icon,
+.email-wrapper:hover .social-icon,
+.social:hover .social-text,
+.email-wrapper:hover .social-text {
+	color: var(--link-color);
 }
 
 .email-wrapper {
-	padding-top: 20px;
 }

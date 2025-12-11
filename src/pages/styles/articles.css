@@ -8,6 +8,10 @@
 	padding-top: 120px;
 }
 
+.articles-card {
+	margin-bottom: 40px;
+}
+
 .articles-container {
 	display: flex;
 	flex-direction: column;
@@ -51,4 +55,3 @@
 		width: 100% !important;
 	}
 }
-

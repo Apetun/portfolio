@@ -40,8 +40,16 @@ interface ParticlesProps {
   vx?: number;
   vy?: number;
 }
-function hexToRgb(hex: string): number[] {
-  hex = hex.replace("#", "");
+function hexToRgb(color: string): number[] {
+  if (color.startsWith("rgb")) {
+    const match = color.match(/rgba?\\(([^)]+)\\)/);
+    if (match) {
+      const [r, g, b] = match[1].split(",").map((part) => parseInt(part.trim(), 10));
+      return [r, g, b];
+    }
+  }
+
+  let hex = color.replace("#", "");
 
   if (hex.length === 3) {
     hex = hex
@@ -64,7 +72,7 @@ const Particles: React.FC<ParticlesProps> = ({
   ease = 50,
   size = 0.4,
   refresh = false,
-  color = "#ffffff",
+  color = "#000000ff",
   vx = 0,
   vy = 0,
 }) => {
@@ -77,6 +85,7 @@ const Particles: React.FC<ParticlesProps> = ({
   const canvasSize = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
   const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (canvasRef.current) {
       context.current = canvasRef.current.getContext("2d");
@@ -90,10 +99,12 @@ const Particles: React.FC<ParticlesProps> = ({
     };
   }, [color]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     onMouseMove();
   }, [mousePosition.x, mousePosition.y]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     initCanvas();
   }, [refresh]);

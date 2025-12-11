@@ -1,10 +1,10 @@
 const INFO = {
-	main: {
-		title: "Portfolio by Apetun",
-		name: "Jeffin Joffy.",
-		email: "jeffinjoffyp123@gmail.com",
-		logo: "./logo.png",
-	},
+		main: {
+			title: "Portfolio by Apetun",
+			name: "Jeffin Joffy.",
+			email: "jeffinjoffyp123@gmail.com",
+			logo: "/portfolio/logo.png",
+		},
 
 	socials: {
 		twitter: "https://x.com/jeffinjoffyp123",
@@ -62,7 +62,7 @@ const INFO = {
 		{
 			title: "Personalized Meal Planner",
 			description:
-				"A personalized meal planner with a database in oracledb and database connectivity and UI done using python.",
+				"Meal planner with an OracleDB backend and a simple Python UI.",
 			logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
 			linkText: "View Project",
 			link: "https://github.com/Apetun/Personalized-Meal-Planner",
@@ -70,10 +70,10 @@ const INFO = {
 {
 			title: "Crime Analysis using Big Data",
 			description:
-				"Chicago Crime Analysis using Big Data tools like Hadoop, Spark, and Kafka.",
+				"Chicago crime insights built with Hadoop, Spark, and Kafka.",
 			logo: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/hadoop/hadoop-original.svg",
 			linkText: "View Project",
-			link: "npm run deployhttps://github.com/Apetun/Chicago-Crime-Analysis",
+			link: "https://github.com/Apetun/Chicago-Crime-Analysis",
 		},
 		
 		{
@@ -85,9 +85,17 @@ const INFO = {
 			link: "https://ai-sle.vercel.app/",
 		},
 		{
+			title: "Percieva",
+			description:
+				"AR and haptic indoor pathfinding for mentally and visually challenged users.",
+			logo: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/android/android-original.svg",
+			linkText: "View Project",
+			link: "https://github.com/Apetun/Percieva",
+		},
+		{
 			title: "OCSR for Hand-drawn images",
 			description:
-				"An Optical Chemical Structure Recognition system with first principles of Computer Vision using OpenCV for extracting molecular structures from hand-drawn images.",
+				"Optical chemical structure recognition with OpenCV to extract hand-drawn molecules.",
 			logo: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/opencv/opencv-original.svg",
 			linkText: "View Project",
 			link: "https://github.com/Apetun/Optical-Chemical-Structure-Recognition",
@@ -95,7 +103,7 @@ const INFO = {
 		{
 			title: "Leaf disease segmentation using Unet",
 			description:
-				"A model which can perform image segmentation and create a mask for leaf disease any given image.",
+				"UNet-based model that segments leaves and highlights diseased areas.",
 			logo: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/jupyter/jupyter-original-wordmark.svg",
 			linkText: "View Project",
 			link: "https://github.com/Apetun/Leaf-disease-segmentation-using-Unet",

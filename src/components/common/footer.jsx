@@ -8,10 +8,10 @@ const Footer = () => {
 		<React.Fragment>
 			<div className="footer">
 				<div className="footer-links">
-					<ul className="footer-nav-link-list">
-						<li className="footer-nav-link-item">
-							<Link to="/portfolio/">Home</Link>
-						</li>
+				<ul className="footer-nav-link-list">
+					<li className="footer-nav-link-item">
+						<Link to="/portfolio/home">Home</Link>
+					</li>
 						<li className="footer-nav-link-item">
 							<Link to="/portfolio/about">About</Link>
 						</li>
