@@ -44,10 +44,11 @@
 }
 
 .homepage-image-wrapper {
-	height:98%;
+	height: 98%;
 	overflow: hidden;
 	border-radius: 10%;
-	animation: float 3s ease-in-out infinite;
+	animation: image-float-home 3s ease-in-out infinite;
+	position: relative;
 }
 
 .homepage-image-wrapper img {
@@ -57,9 +58,29 @@
 	display: block;
 }
 
+.homepage-pupil {
+	position: absolute;
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background: #000;
+	transform: translate(-50%, -50%);
+	transition: transform 60ms linear;
+	pointer-events: none;
+}
+
 @keyframes float {
 	0%, 100% {
 		transform: translateY(0px);
+	}
+	50% {
+		transform: translateY(-10px);
+	}
+}
+
+@keyframes image-float-home {
+	0%, 100% {
+		transform: translateY(0);
 	}
 	50% {
 		transform: translateY(-10px);

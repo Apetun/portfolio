@@ -32,6 +32,7 @@ const Homepage = () => {
 	const [oldLogoSize, setOldLogoSize] = useState(80);
 	const [accentColor, setAccentColor] = useState("#14b8a6");
 	const titleRef = useRef(null);
+	const [pupilOffset, setPupilOffset] = useState({ x: 0, y: 0 });
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -72,6 +73,21 @@ const Homepage = () => {
 		window.addEventListener("scroll", handleScroll);
 		return () => window.removeEventListener("scroll", handleScroll);
 	}, [logoSize, oldLogoSize]);
+
+	const handleEyeMouseMove = (event) => {
+		const container = event.currentTarget.getBoundingClientRect();
+		const centerX = container.left + container.width / 2;
+		const centerY = container.top + container.height / 2;
+		const dx = event.clientX - centerX;
+		const dy = event.clientY - centerY;
+		const maxOffset = 8;
+		const clamp = (value) => Math.max(Math.min(value, maxOffset), -maxOffset);
+		setPupilOffset({ x: clamp(dx / 65), y: clamp(dy / 130) });
+	};
+
+	const handleEyeMouseLeave = () => {
+		setPupilOffset({ x: 0, y: 0 });
+	};
 
 	const currentSEO = SEO.find((item) => item.page === "home");
 
@@ -118,7 +134,7 @@ const Homepage = () => {
 
 					<div className="homepage-container">
 						<BlurFade delay={0.25} inView>
-							<div className="homepage-content-card">
+							<div className="homepage-content-card" onMouseMove={handleEyeMouseMove} onMouseLeave={handleEyeMouseLeave}>
 								<div className="homepage-first-area">
 									<div className="homepage-first-area-left-side">
 										<div className="title homepage-title">
@@ -163,14 +179,35 @@ const Homepage = () => {
 
 									<div className="homepage-first-area-right-side">
 													<div className="about-image-container">
-									<div className="about-image-wrapper">
-										<BlurFade delay={0.25} inView>
+									<div
+										className="about-image-wrapper"
+										onMouseMove={handleEyeMouseMove}
+										onMouseLeave={handleEyeMouseLeave}
+										style={{ position: "relative" }}
+									>
+										<BlurFade delay={0.25} inView yOffset={0}>
 												<img
 													src="/portfolio/homepage.jpg"
 													alt="homepage portrait"
 													className="about-image"
 												/>
 										</BlurFade>
+										<div
+											className="homepage-pupil"
+											style={{
+												left: "32%",
+												top: "43.8%",
+												transform: `translate(calc(-50% + ${pupilOffset.x}px), calc(-50% + ${pupilOffset.y}px))`
+											}}
+										/>
+										<div
+											className="homepage-pupil"
+											style={{
+												left: "48.6%",
+												top: "43.8%",
+												transform: `translate(calc(-50% + ${pupilOffset.x}px), calc(-50% + ${pupilOffset.y}px))`
+											}}
+										/>
 									</div>
 								</div>
 

@@ -141,7 +141,7 @@ const About = () => {
 								<div className="about-card about-left-side">
 									<div className="about-image-container">
 										<div className="about-image-wrapper">
-											<BlurFade delay={0.25} inView>
+											<BlurFade delay={0.25} inView yOffset={0}>
 												<img
 													src="/portfolio/about.jpg"
 													alt="about portrait"
