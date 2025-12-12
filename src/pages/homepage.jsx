@@ -133,7 +133,7 @@ const Homepage = () => {
 			const dy = event.clientY - centerY;
 			const maxOffset = 8;
 			const clamp = (value) => Math.max(Math.min(value, maxOffset), -maxOffset);
-			setPupilOffset({ x: clamp(dx / 700), y: clamp(dy / 130) });
+			setPupilOffset({ x: clamp(dx / 60), y: clamp(dy / 190) });
 		};
 
 		const handleMouseLeaveWindow = (event) => {
