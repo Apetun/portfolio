@@ -19,8 +19,19 @@ const Contact = () => {
 		window.scrollTo(0, 0);
 	}, []);
 	const titleRef = useRef(null);
+	const subtitleRef = useRef(null);
 
 	const currentSEO = SEO.find((item) => item.page === "contact");
+	const subtitleProximityProps = {
+		containerRef: subtitleRef,
+		className: "contact-subtitle-proximity",
+		fromFontVariationSettings: "'wght' 650, 'opsz' 20",
+		toFontVariationSettings: "'wght' 780, 'opsz' 22",
+		fontFamily: "'Roboto Flex', 'Roboto', var(--secondary-font)",
+		fontWeight: 750,
+		radius: 140,
+		falloff: "linear",
+	};
 
 	return (
 		<React.Fragment>
@@ -64,28 +75,48 @@ const Contact = () => {
 											/>
 										</div>
 									</div>
-									<div className="subtitle contact-subtitle">
-										for your interest in getting in touch
-										with me. I welcome your feedback, questions, and
-										suggestions. If you have a specific question or
-										comment, please feel free to email me directly
-										at &nbsp;{""}
-										<a href={`mailto:${INFO.main.email}`}>
-											{INFO.main.email}
-										</a>
-										. I make an effort to respond to all messages
-										within 24 hours, although it may take me longer
-										during busy periods. Finally, if you prefer to
-										connect on social media, you can find me on{" "}
-										<a
-											href={INFO.socials.linkedin}
-											target="_blank"
-											rel="noreferrer"
-										>
-											{"linkedin"}
-										</a>
-										. Thanks again for your interest, and I look
-										forward to hearing from you!
+									<div className="subtitle contact-subtitle" ref={subtitleRef}>
+										<p>
+											<VariableProximity
+												{...subtitleProximityProps}
+												label="Thanks for your interest in getting in touch with me. I welcome your feedback, questions, and suggestions."
+											/>{" "}
+											<br />
+											<VariableProximity
+												{...subtitleProximityProps}
+												label="If you have a specific question or comment, please feel free to email me directly at"
+											/>{" "}
+											<a href={`mailto:${INFO.main.email}`}>
+												<VariableProximity
+													{...subtitleProximityProps}
+													label={INFO.main.email}
+												/>
+											</a>
+											{" "}
+											<VariableProximity
+												{...subtitleProximityProps}
+												label="I make an effort to respond to all messages within 24 hours, although it may take me longer during busy periods."
+											/>
+											<br />
+											<VariableProximity
+												{...subtitleProximityProps}
+												label="If you prefer to connect on social media, you can find me on"
+											/>{" "}
+											<a
+												href={INFO.socials.linkedin}
+												target="_blank"
+												rel="noreferrer"
+											>
+												<VariableProximity
+													{...subtitleProximityProps}
+													label="LinkedIn"
+												/>
+											</a>
+											<VariableProximity
+												{...subtitleProximityProps}
+												label=". Thanks again for your interest—I look forward to hearing from you!"
+											/>
+										</p>
 									</div>
 								</div>
 							</BlurFade>

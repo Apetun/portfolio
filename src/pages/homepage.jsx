@@ -27,16 +27,34 @@ import SEO from "../data/seo";
 import "./styles/homepage.css";
 
 const Homepage = () => {
-	const [stayLogo, setStayLogo] = useState(false);
-	const [logoSize, setLogoSize] = useState(80);
-	const [oldLogoSize, setOldLogoSize] = useState(80);
+	const [logoSize, setLogoSize] = useState(86);
+	const [mergedNav, setMergedNav] = useState(false);
+	const [navShouldStick, setNavShouldStick] = useState(true);
+	const [navFade, setNavFade] = useState(1);
+	const [navWave, setNavWave] = useState(false);
+	const [mergeProgress, setMergeProgress] = useState(0);
+	const mergeTargetRef = useRef(0);
+	const mergeAnimRef = useRef(null);
+	const prevMergedRef = useRef(false);
 	const [accentColor, setAccentColor] = useState("#14b8a6");
 	const titleRef = useRef(null);
+	const subtitleRef = useRef(null);
+	const navStopRef = useRef(null);
+	const eyeTargetRef = useRef(null);
 	const [pupilOffset, setPupilOffset] = useState({ x: 0, y: 0 });
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);
+
+	useEffect(() => {
+		if (mergedNav && !prevMergedRef.current) {
+			setNavWave(true);
+			const t = setTimeout(() => setNavWave(false), 700);
+			return () => clearTimeout(t);
+		}
+		prevMergedRef.current = mergedNav;
+	}, [mergedNav]);
 
 	useEffect(() => {
 		if (typeof window === "undefined") return;
@@ -52,53 +70,98 @@ const Homepage = () => {
 
 	useEffect(() => {
 		const handleScroll = () => {
-			let scroll = Math.round(window.scrollY, 2);
+			const scroll = Math.max(0, window.scrollY);
+			const targetSize = 86 - Math.min(scroll, 220) * 0.22;
+			const clamped = Math.max(48, targetSize);
+			setLogoSize(clamped);
+			setMergedNav(scroll > 120);
+			const start = 0;
+			const range = 220;
+			mergeTargetRef.current = Math.min(Math.max((scroll - start) / range, 0), 1);
+			if (!mergeAnimRef.current) {
+				const animateMerge = () => {
+					setMergeProgress((prev) => {
+						const target = mergeTargetRef.current;
+						const next = prev + (target - prev) * 0.14;
+						const done = Math.abs(next - target) < 0.002;
+						if (!done) {
+							mergeAnimRef.current = requestAnimationFrame(animateMerge);
+							return next;
+						}
+						mergeAnimRef.current = null;
+						return target;
+					});
+				};
+				mergeAnimRef.current = requestAnimationFrame(animateMerge);
+			}
 
-			let newLogoSize = 80 - (scroll * 4) / 10;
-
-			if (newLogoSize < oldLogoSize) {
-				if (newLogoSize > 40) {
-					setLogoSize(newLogoSize);
-					setOldLogoSize(newLogoSize);
-					setStayLogo(false);
-				} else {
-					setStayLogo(true);
-				}
-			} else {
-				setLogoSize(newLogoSize);
-				setStayLogo(false);
+			const stopEl = navStopRef.current;
+			if (stopEl) {
+				const releaseThreshold = 140;
+				const { top } = stopEl.getBoundingClientRect();
+				setNavShouldStick(top > releaseThreshold);
+				const fadeStart = 220;
+				const fadeEnd = 80;
+				const fade = Math.min(
+					1,
+					Math.max(0, (top - fadeEnd) / Math.max(1, fadeStart - fadeEnd))
+				);
+				setNavFade(fade);
 			}
 		};
 
-		window.addEventListener("scroll", handleScroll);
-		return () => window.removeEventListener("scroll", handleScroll);
-	}, [logoSize, oldLogoSize]);
+		handleScroll();
 
-	const handleEyeMouseMove = (event) => {
-		const container = event.currentTarget.getBoundingClientRect();
-		const centerX = container.left + container.width / 2;
-		const centerY = container.top + container.height / 2;
-		const dx = event.clientX - centerX;
-		const dy = event.clientY - centerY;
-		const maxOffset = 8;
-		const clamp = (value) => Math.max(Math.min(value, maxOffset), -maxOffset);
-		setPupilOffset({ x: clamp(dx / 65), y: clamp(dy / 130) });
-	};
+		window.addEventListener("scroll", handleScroll, { passive: true });
+		return () => {
+			window.removeEventListener("scroll", handleScroll);
+			if (mergeAnimRef.current) {
+				cancelAnimationFrame(mergeAnimRef.current);
+				mergeAnimRef.current = null;
+			}
+		};
+	}, []);
 
-	const handleEyeMouseLeave = () => {
-		setPupilOffset({ x: 0, y: 0 });
-	};
+	useEffect(() => {
+		const handleMouseMove = (event) => {
+			const container = eyeTargetRef.current?.getBoundingClientRect();
+			if (!container) return;
+
+			const centerX = container.left + container.width / 2;
+			const centerY = container.top + container.height / 2;
+			const dx = event.clientX - centerX;
+			const dy = event.clientY - centerY;
+			const maxOffset = 8;
+			const clamp = (value) => Math.max(Math.min(value, maxOffset), -maxOffset);
+			setPupilOffset({ x: clamp(dx / 700), y: clamp(dy / 130) });
+		};
+
+		const handleMouseLeaveWindow = (event) => {
+			if (!event.relatedTarget) {
+				setPupilOffset({ x: 0, y: 0 });
+			}
+		};
+
+		window.addEventListener("mousemove", handleMouseMove);
+		window.addEventListener("mouseout", handleMouseLeaveWindow);
+
+		return () => {
+			window.removeEventListener("mousemove", handleMouseMove);
+			window.removeEventListener("mouseout", handleMouseLeaveWindow);
+		};
+	}, []);
 
 	const currentSEO = SEO.find((item) => item.page === "home");
-
-	const logoStyle = {
-		display: "flex",
-		position: stayLogo ? "fixed" : "relative",
-		top: stayLogo ? "3vh" : "auto",
-		zIndex: 999,
-		border: stayLogo ? "1px solid white" : "none",
-		borderRadius: stayLogo ? "2%" : "none",
-		boxShadow: stayLogo ? "0px 4px 10px rgba(0, 0, 0, 0.25)" : "none",
+	const inlineLogoSize = Math.max(52, Math.round(logoSize * 0.8));
+	const subtitleProximityProps = {
+		containerRef: subtitleRef,
+		className: "homepage-subtitle-proximity",
+		fromFontVariationSettings: "'wght' 650, 'opsz' 20",
+		toFontVariationSettings: "'wght' 780, 'opsz' 22",
+		fontFamily: "'Roboto Flex', 'Roboto', var(--secondary-font)",
+		fontWeight: 750,
+		radius: 140,
+		falloff: "linear"
 	};
 
 	return (
@@ -110,31 +173,57 @@ const Homepage = () => {
 					name="keywords"
 					content={currentSEO.keywords.join(", ")}
 				/>
-			</Helmet>
+					</Helmet>
 			
-				<div className="page-content">
-					 <Dither
-    waveColor={[0.5, 1, 1]}
-    disableAnimation={false}
-    enableMouseInteraction={true}
-    mouseRadius={0.2}
-    colorNum={40}
-    waveAmplitude={0.2}
-    waveFrequency={20}
-    waveSpeed={0.03}
-  />
-			
-				<NavBar active="home" />
+			<div className="page-content">
+				<Dither
+					waveColor={[0.5, 1, 1]}
+					disableAnimation={false}
+					enableMouseInteraction={true}
+					mouseRadius={0.2}
+					colorNum={40}
+					waveAmplitude={0.2}
+					waveFrequency={20}
+					waveSpeed={0.03}
+				/>
+
 				<div className="content-wrapper">
-					<div className="homepage-logo-container">
-						<div style={logoStyle}>
+					<div
+						className={`home-top-row${navShouldStick ? " is-sticky" : ""}${mergedNav ? " is-merged" : ""}`}
+						style={{ "--merge-progress": mergeProgress, "--nav-fade": navFade }}
+					>
+						<div
+							className={`home-logo-standalone${mergedNav ? " is-merged" : ""}`}
+							style={{ width: `${logoSize}px`, height: `${logoSize}px` }}
+							aria-hidden={mergedNav}
+						>
 							<Logo width={logoSize} link={false} />
+						</div>
+						<div className={`home-nav-wrapper${mergedNav ? " merged" : ""}${navWave ? " wave" : ""}`}>
+							{mergedNav && (
+								<div
+									className="home-nav-inline-logo"
+									style={{
+										width: `${inlineLogoSize}px`,
+										height: `${inlineLogoSize}px`,
+										"--inline-logo-size": `${inlineLogoSize}px`,
+									}}
+								>
+									<Logo width={inlineLogoSize} link={false} />
+								</div>
+							)}
+							<NavBar
+								active="home"
+								inline
+								showLogo={false}
+								navHeight={mergedNav ? 60 : undefined}
+							/>
 						</div>
 					</div>
 
 					<div className="homepage-container">
 						<BlurFade delay={0.25} inView>
-							<div className="homepage-content-card" onMouseMove={handleEyeMouseMove} onMouseLeave={handleEyeMouseLeave}>
+							<div className="homepage-content-card">
 								<div className="homepage-first-area">
 									<div className="homepage-first-area-left-side">
 										<div className="title homepage-title">
@@ -154,63 +243,92 @@ const Homepage = () => {
 											</div>
 										</div>
 
-										<div className="subtitle homepage-subtitle">
+										<div className="subtitle homepage-subtitle" ref={subtitleRef}>
 											<p>
-												Welcome to my Website! I am a passionate{" "}
+												<VariableProximity
+													{...subtitleProximityProps}
+													label="Welcome to my Website! I am a passionate"
+												/>{" "}
 												<Highlighter action="highlight" color="#faf687ff"  animationDuration={1100}>
-													AI and ML 
+													<VariableProximity
+														{...subtitleProximityProps}
+														label="AI and ML"
+													/>
 												</Highlighter>{" "}
-												academic with a strong foundation in{" "}
+												<VariableProximity
+													{...subtitleProximityProps}
+													label="academic with a strong foundation in"
+												/>{" "}
 												<Highlighter action="underline" color="#01e0c6ff"  animationDuration={1200}>
-													Computer Science and Engineering
+													<VariableProximity
+														{...subtitleProximityProps}
+														label="Computer Science and Engineering"
+													/>
 												</Highlighter>
-												. Currently, I am pursuing a degree in Computer Science & Engineering from{" "}
+												<VariableProximity
+													{...subtitleProximityProps}
+													label="."
+												/>{" "}
+												<VariableProximity
+													{...subtitleProximityProps}
+													label="Currently, I am pursuing a degree in Computer Science & Engineering from"
+												/>{" "}
 												<Highlighter action="highlight" color="#faf687ff"  animationDuration={1300}>
-													Manipal Institute of Technology
+													<VariableProximity
+														{...subtitleProximityProps}
+														label="Manipal Institute of Technology"
+													/>
 												</Highlighter>{" "}
-												  and an online{" "}
+												<VariableProximity
+													{...subtitleProximityProps}
+													label="and an online"
+												/>{" "}
 												<Highlighter action="underline" color="#01e0c6ff"  animationDuration={1400}>
-													BS degree in Data Science
+													<VariableProximity
+														{...subtitleProximityProps}
+														label="BS degree in Data Science"
+													/>
 												</Highlighter>{" "}
-												and Programming from IIT Madras.
+												<VariableProximity
+													{...subtitleProximityProps}
+													label="and Programming from IIT Madras."
+												/>
 											</p>
 										</div>
 									</div>
 
 									<div className="homepage-first-area-right-side">
-													<div className="about-image-container">
-									<div
-										className="about-image-wrapper"
-										onMouseMove={handleEyeMouseMove}
-										onMouseLeave={handleEyeMouseLeave}
-										style={{ position: "relative" }}
-									>
-										<BlurFade delay={0.25} inView yOffset={0}>
-												<img
-													src="/portfolio/homepage.jpg"
-													alt="homepage portrait"
-													className="about-image"
+										<div className="about-image-container">
+											<div
+												className="about-image-wrapper"
+												style={{ position: "relative" }}
+												ref={eyeTargetRef}
+											>
+												<BlurFade delay={0.25} inView yOffset={0}>
+													<img
+														src="/portfolio/homepage.jpg"
+														alt="homepage portrait"
+														className="about-image"
+													/>
+												</BlurFade>
+												<div
+													className="homepage-pupil"
+													style={{
+														left: "32%",
+														top: "43.8%",
+														transform: `translate(calc(-50% + ${pupilOffset.x}px), calc(-50% + ${pupilOffset.y}px))`
+													}}
 												/>
-										</BlurFade>
-										<div
-											className="homepage-pupil"
-											style={{
-												left: "32%",
-												top: "43.8%",
-												transform: `translate(calc(-50% + ${pupilOffset.x}px), calc(-50% + ${pupilOffset.y}px))`
-											}}
-										/>
-										<div
-											className="homepage-pupil"
-											style={{
-												left: "48.6%",
-												top: "43.8%",
-												transform: `translate(calc(-50% + ${pupilOffset.x}px), calc(-50% + ${pupilOffset.y}px))`
-											}}
-										/>
-									</div>
-								</div>
-
+												<div
+													className="homepage-pupil"
+													style={{
+														left: "48.7%",
+														top: "44.1%",
+														transform: `translate(calc(-50% + ${pupilOffset.x}px), calc(-50% + ${pupilOffset.y}px))`
+													}}
+												/>
+											</div>
+										</div>
 									</div>
 								</div>
 								<div className="homepage-socials">
@@ -275,6 +393,11 @@ const Homepage = () => {
 								</div>
 							</div>
 						</BlurFade>
+					</div>
+
+					<div ref={navStopRef} className="nav-stop-sentinel" aria-hidden="true" />
+
+					<div className="homepage-container">
 						<BlurFade delay={0.25 * 4} inView>
 							<div className="homepage-projects">
 								<AllProjects />

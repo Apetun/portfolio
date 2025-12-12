@@ -1,67 +1,69 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useMemo } from "react";
+import { useLocation } from "react-router-dom";
+
+import INFO from "../../data/user";
+import NAV_ITEMS from "../../data/navItems";
+import PillNav from "./PillNav";
 
 import "./styles/navBar.css";
 
+const PILL_NAV_ITEMS = NAV_ITEMS.map(({ label, href, ariaLabel }) => ({
+	label,
+	href,
+	ariaLabel,
+}));
+
 const NavBar = (props) => {
-	const { active } = props;
+	const {
+		active,
+		showLogo = false,
+		inline = false,
+		navHeight,
+	} = props;
+	const location = useLocation();
+
+	const activeHref = useMemo(() => {
+		if (active) {
+			const fromProp = NAV_ITEMS.find((item) => item.id === active);
+			if (fromProp) {
+				return fromProp.href;
+			}
+		}
+
+		if (location.pathname.startsWith("/portfolio/article/")) {
+			return "/portfolio/articles";
+		}
+
+		const match = NAV_ITEMS.find((item) =>
+			location.pathname.startsWith(item.href)
+		);
+
+		return match?.href;
+	}, [active, location.pathname]);
+
+	const navStyles = navHeight
+		? {
+				"--nav-h": `${navHeight}px`,
+		  }
+		: undefined;
 
 	return (
-		<React.Fragment>
-			<div className="nav-container">
-				<nav className="navbar">
-					<div className="nav-background">
-						<ul className="nav-list">
-							<li
-								className={
-									active === "home"
-										? "nav-item active"
-										: "nav-item"
-								}
-							>
-								<Link to="/portfolio/home">Home</Link>
-							</li>
-							<li
-								className={
-									active === "about"
-										? "nav-item active"
-										: "nav-item"
-								}
-							>
-								<Link to="/portfolio/about">About</Link>
-							</li>
-							<li
-								className={
-									active === "projects"
-										? "nav-item active"
-										: "nav-item"
-								}
-							>
-								<Link to="/portfolio/projects">Projects</Link>
-							</li>
-							<li
-								className={
-									active === "articles"
-										? "nav-item active"
-										: "nav-item"
-								}
-							>
-								<Link to="/portfolio/articles">Articles</Link>
-							</li>
-							<li
-								className={
-									active === "contact"
-										? "nav-item active"
-										: "nav-item"
-								}
-							>
-								<Link to="/portfolio/contact">Contact</Link>
-							</li>
-						</ul>
-					</div>
-				</nav>
-			</div>
-		</React.Fragment>
+		<div className={`pill-nav-shell${inline ? " inline-nav-shell" : ""}`}>
+			<PillNav
+				logo={INFO.main.logo}
+				logoAlt={INFO.main.title}
+				items={PILL_NAV_ITEMS}
+				activeHref={activeHref}
+				className="site-pill-nav"
+				baseColor="#fff"
+				pillColor="var(--quaternary-color)"
+				pillTextColor="#000"
+				hoveredPillTextColor="#fff"
+				highlightColor="var(--link-color)"
+				showLogo={showLogo}
+				style={navStyles}
+			/>
+		</div>
 	);
 };
 

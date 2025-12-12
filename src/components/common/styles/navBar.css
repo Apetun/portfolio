@@ -1,73 +1,48 @@
 @import "../../../data/styles.css";
 
-.nav-container {
-	margin: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.pill-nav-shell {
+	position: relative;
 }
 
-.navbar {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.pill-nav-shell .pill-nav-container {
 	position: fixed;
-	top: 3vh;
-	z-index: 999;
-}
-
-.nav-background {
-	width: 380px;
-	height: 40px;
-	padding-left: 0%;
-	padding-right: 0%;
-	background: #fff;
-	box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-	border-radius: 40px;
-}
-
-.nav-list {
+	top: 20px;
+	left: 0;
+	right: 0;
 	display: flex;
-	justify-content: space-between;
-	list-style: none;
-	align-items: center;
-	margin-left: -16px;
-	margin-right: 20px;
-	margin-top: 11px;
+	justify-content: center;
+	padding: 12px 18px 18px;
+	box-sizing: border-box;
+	z-index: 120;
 }
 
-.nav-item {
-	font-weight: bold;
-	font-size: 80%;
+.pill-nav-shell .pill-nav {
+	box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.9);
 }
 
-.nav-item.active a {
-	color: var(--link-color) !important;
-}
-
-.nav-item a {
-	text-decoration: none;
-	color: var(--primary-color);
-}
-
-.nav-item a:hover {
-	color: var(--link-color);
-	transition: color 0.3s ease-in-out;
-}
-
-@media (max-width: 600px) {
-	.navbar {
-		margin: 0 auto;
-		width: 80%;
-		font-size: 80%;
+@media (max-width: 768px) {
+	.pill-nav-shell .pill-nav-container {
+		top: 12px;
+		padding: 0 12px;
 	}
 
-	.nav-background {
-		width: 80%;
-		height: 40px;
+	.pill-nav-shell .pill-nav {
+		box-shadow: none;
 	}
+}
 
-	.nav-item {
-		font-weight: bold;
-	}
+.inline-nav-shell .pill-nav-container {
+	position: static;
+	top: auto;
+	left: auto;
+	right: auto;
+	padding: 0;
+	justify-content: center;
+	width: auto;
+}
+
+.inline-nav-shell .pill-nav {
+	box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
 }

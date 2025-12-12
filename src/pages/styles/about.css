@@ -43,6 +43,16 @@
 	width: 100% !important;
 }
 
+.about-subtitle p {
+	font-family: var(--primary-font);
+	font-weight: 800;
+	color: var(--secondary-color);
+	font-size: 18px;
+	line-height: 30px;
+	letter-spacing: 0.01em;
+	margin: 0;
+}
+
 .about-left-side {
 	display: flex;
 	flex-direction: column;
@@ -96,6 +106,8 @@
 .about-socials {
 	padding-top: 30px;
 	padding-bottom: 10px;
+	display: flex;
+	transform: translateX(8px);
 }
 
 .about-socials-mobile {

@@ -19,10 +19,10 @@ const Article = (props) => {
 		const y = e.clientY - rect.top;
 		const pctX = (x / rect.width) * 2 - 1; // -1 .. 1
 		const pctY = (y / rect.height) * 2 - 1; // -1 .. 1
-		const rotateY = pctX * 8;
-		const rotateX = -pctY * 8;
-		const translateX = pctX * 6;
-		const translateY = pctY * 6;
+		const rotateY = -pctX * 5;
+		const rotateX = pctY * 5;
+		const translateX = pctX * 4;
+		const translateY = pctY * 4;
 		setTilt({ rx: rotateX, ry: rotateY, tx: translateX, ty: translateY });
 	}, []);
 

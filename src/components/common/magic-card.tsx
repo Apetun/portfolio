@@ -15,7 +15,7 @@ interface MagicCardProps {
 export function MagicCard({
   children,
   className,
-  maxTiltDeg = 10,
+  maxTiltDeg = 6,
   enableTilt = true,
 }: MagicCardProps) {
   const rotateX = useMotionValue(0);
@@ -34,8 +34,8 @@ export function MagicCard({
       const y = e.clientY - rect.top;
       const pctX = (x / rect.width) * 2 - 1;
       const pctY = (y / rect.height) * 2 - 1;
-      rotateY.set(pctX * maxTiltDeg);
-      rotateX.set(-pctY * maxTiltDeg);
+      rotateY.set(-pctX * maxTiltDeg);
+      rotateX.set(pctY * maxTiltDeg);
     },
     [enableTilt, maxTiltDeg, rotateX, rotateY]
   );

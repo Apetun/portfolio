@@ -19,8 +19,19 @@ const Projects = () => {
 	}, []);
 
 	const titleRef = useRef(null);
+	const subtitleRef = useRef(null);
 
 	const currentSEO = SEO.find((item) => item.page === "projects");
+	const subtitleProximityProps = {
+		containerRef: subtitleRef,
+		className: "projects-subtitle-proximity",
+		fromFontVariationSettings: "'wght' 650, 'opsz' 20",
+		toFontVariationSettings: "'wght' 780, 'opsz' 22",
+		fontFamily: "'Roboto Flex', 'Roboto', var(--secondary-font)",
+		fontWeight: 750,
+		radius: 140,
+		falloff: "linear",
+	};
 
 	return (
 		<React.Fragment>
@@ -64,18 +75,18 @@ const Projects = () => {
 											/>
 										</div>
 									</div>
-									<div className="subtitle projects-subtitle">
-										I've worked on a variety of projects over the
-										years and I'm proud of the progress I've made.
-										Many of these projects are open-source and
-										available for others to explore and contribute
-										to. If you're interested in any of the projects
-										I've worked on, please feel free to check out
-										the code and suggest any improvements or
-										enhancements you might have in mind.
-										Collaborating with others is a great way to
-										learn and grow, and I'm always open to new ideas
-										and feedback.
+									<div className="subtitle projects-subtitle" ref={subtitleRef}>
+										<p>
+											<VariableProximity
+												{...subtitleProximityProps}
+												label="I've worked on a variety of projects over the years and I'm proud of the progress I've made. Many of these projects are open-source and available for others to explore and contribute to. If you're interested in any"
+											/>
+											<br />
+											<VariableProximity
+												{...subtitleProximityProps}
+												label="of the projects I've worked on, please feel free to check out the code and suggest any improvements or enhancements you might have in mind. Collaborating with others is a great way to learn and grow, and I'm always open to new ideas and feedback."
+											/>
+										</p>
 									</div>
 								</div>
 							</BlurFade>

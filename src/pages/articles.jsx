@@ -21,8 +21,19 @@ const Articles = () => {
 	}, []);
 
 	const titleRef = useRef(null);
+	const subtitleRef = useRef(null);
 
 	const currentSEO = SEO.find((item) => item.page === "articles");
+	const subtitleProximityProps = {
+		containerRef: subtitleRef,
+		className: "articles-subtitle-proximity",
+		fromFontVariationSettings: "'wght' 650, 'opsz' 20",
+		toFontVariationSettings: "'wght' 780, 'opsz' 22",
+		fontFamily: "'Roboto Flex', 'Roboto', var(--secondary-font)",
+		fontWeight: 750,
+		radius: 140,
+		falloff: "linear",
+	};
 
 	return (
 		<React.Fragment>
@@ -66,9 +77,14 @@ const Articles = () => {
 											/>
 										</div>
 									</div>
-									<div className="subtitle articles-subtitle">
+									<div className="subtitle articles-subtitle" ref={subtitleRef}>
 										<BlurFade inView duration={0.25 * 2}>
-											{INFO.articles.description}
+											<p>
+												<VariableProximity
+													{...subtitleProximityProps}
+													label={INFO.articles.description}
+												/>
+											</p>
 										</BlurFade>
 									</div>
 								</div>

@@ -23,6 +23,7 @@ const About = () => {
 
 	const [accentColor, setAccentColor] = useState("#14b8a6");
 	const titleRef = useRef(null);
+	const subtitleRef = useRef(null);
 
 	useEffect(() => {
 		if (typeof window === "undefined") return;
@@ -37,6 +38,16 @@ const About = () => {
 	}, []);
 
 	const currentSEO = SEO.find((item) => item.page === "about");
+	const subtitleProximityProps = {
+		containerRef: subtitleRef,
+		className: "about-subtitle-proximity",
+		fromFontVariationSettings: "'wght' 650, 'opsz' 20",
+		toFontVariationSettings: "'wght' 780, 'opsz' 22",
+		fontFamily: "'Roboto Flex', 'Roboto', var(--secondary-font)",
+		fontWeight: 750,
+		radius: 140,
+		falloff: "linear"
+	};
 
 	return (
 		<React.Fragment>
@@ -84,9 +95,14 @@ const About = () => {
 											</BlurFade>
 										</div>
 
-										<div className="subtitle about-subtitle">
+										<div className="subtitle about-subtitle" ref={subtitleRef}>
 											<BlurFade delay={0.25 * 2} inView>
-												{INFO.about.description}
+												<p>
+													<VariableProximity
+														{...subtitleProximityProps}
+														label={INFO.about.description}
+													/>
+												</p>
 											</BlurFade>
 										</div>
 									</div>
