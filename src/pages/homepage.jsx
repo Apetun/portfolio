@@ -133,9 +133,9 @@ const Homepage = () => {
 			const centerY = container.top + container.height / 2;
 			const dx = event.clientX - centerX;
 			const dy = event.clientY - centerY;
-			const maxOffset = 8;
+			const maxOffset = 1;
 			const clamp = (value) => Math.max(Math.min(value, maxOffset), -maxOffset);
-			setPupilOffset({ x: clamp(dx / 60), y: clamp(dy / 191) });
+			setPupilOffset({ x: dx / 70, y: clamp(dy / 80) });
 		};
 
 		const handleMouseLeaveWindow = (event) => {
@@ -316,16 +316,16 @@ const Homepage = () => {
 												<div
 													className="homepage-pupil"
 													style={{
-														left: "32%",
-														top: "43.8%",
+														left: "33%",
+														top: "44.2%",
 														transform: `translate(calc(-50% + ${pupilOffset.x}px), calc(-50% + ${pupilOffset.y}px))`
 													}}
 												/>
 												<div
 													className="homepage-pupil"
 													style={{
-														left: "48.7%",
-														top: "44.1%",
+														left: "49.2%",
+														top: "44.5%",
 														transform: `translate(calc(-50% + ${pupilOffset.x}px), calc(-50% + ${pupilOffset.y}px))`
 													}}
 												/>
