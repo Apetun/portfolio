@@ -317,11 +317,11 @@
 	display: inline-block;
 	padding: 5px 20px;
 	background-color: var(--quaternary-color);
-	color: var(--primary-color);
+	color: #000;
 	text-align: center;
 	text-decoration: none;
 	border-radius: 9999px;
-	border: 1px solid var(--secondary-color);
+	border: none;
 	font-size: 16px;
 	font-weight: bold;
 	transition: background-color 0.12s, transform 0.12s;
