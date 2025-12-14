@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet";
-import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 import { faMailBulk } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,6 +20,7 @@ import { Highlighter } from "../components/common/highlighter";
 import Dither from "../components/common/Dither";
 import DecryptedText from "../components/common/DecryptedText";
 import VariableProximity from "../components/common/VariableProximity";
+import { InteractiveHoverButton } from "../components/common/interactive-hover-button";
 
 import INFO from "../data/user";
 import SEO from "../data/seo";
@@ -27,6 +28,7 @@ import SEO from "../data/seo";
 import "./styles/homepage.css";
 
 const Homepage = () => {
+	const navigate = useNavigate();
 	const [logoSize, setLogoSize] = useState(86);
 	const [mergedNav, setMergedNav] = useState(false);
 	const [navShouldStick, setNavShouldStick] = useState(true);
@@ -384,12 +386,12 @@ const Homepage = () => {
 											/>
 										</a>
 									</div>
-									<Link
-										to="/portfolio/resume"
+									<InteractiveHoverButton
 										className="resume-button"
+										onClick={() => navigate("/portfolio/resume")}
 									>
 										Resume
-									</Link>
+									</InteractiveHoverButton>
 								</div>
 							</div>
 						</BlurFade>

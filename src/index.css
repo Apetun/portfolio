@@ -1,6 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Heebo:wght@300&family=Roboto:wght@500&display=swap");
 @import "./data/styles.css";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
 	margin: 0;
 	font-family: var(--primary-font);

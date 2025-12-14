@@ -316,11 +316,12 @@
 .resume-button {
 	display: inline-block;
 	padding: 5px 20px;
-	background-color: var(--secondary-color); /* Blue color */
-	color: white;
+	background-color: var(--quaternary-color);
+	color: var(--primary-color);
 	text-align: center;
 	text-decoration: none;
-	border-radius: 10px;
+	border-radius: 9999px;
+	border: 1px solid var(--secondary-color);
 	font-size: 16px;
 	font-weight: bold;
 	transition: background-color 0.12s, transform 0.12s;
