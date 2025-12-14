@@ -59,7 +59,7 @@ const NavBar = (props) => {
 				pillColor="var(--quaternary-color)"
 				pillTextColor="#000"
 				hoveredPillTextColor="#fff"
-				highlightColor="var(--link-color)"
+				highlightColor="var(--pill-highlight-color, var(--link-color))"
 				showLogo={showLogo}
 				style={navStyles}
 			/>

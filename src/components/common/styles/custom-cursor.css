@@ -1,0 +1,43 @@
+.custom-cursor-mode,
+.custom-cursor-mode * {
+	cursor: none !important;
+}
+
+.custom-cursor {
+	position: fixed;
+	top: 0;
+	left: 0;
+	pointer-events: none;
+	z-index: 10000;
+	transition: opacity 0.2s ease;
+}
+
+.custom-cursor__svg {
+	--cursor-base-transform: translate(-12px, -16px) rotate(-45deg);
+	transform: var(--cursor-base-transform);
+	transform-origin: center center;
+}
+
+.custom-cursor.is-hidden {
+	opacity: 0;
+}
+
+.custom-cursor.is-pressed .custom-cursor__svg {
+	animation: cursor-click 0.4s ease-out;
+}
+
+.custom-cursor.is-pressed .custom-cursor__svg path:first-of-type {
+	fill: var(--pill-highlight-color, var( #ffffff));
+}
+
+@keyframes cursor-click {
+	0% {
+		transform: var(--cursor-base-transform);
+	}
+	40% {
+		transform: var(--cursor-base-transform) scale(1.02);
+	}
+	100% {
+		transform: var(--cursor-base-transform);
+	}
+}

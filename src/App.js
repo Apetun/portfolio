@@ -12,6 +12,7 @@ import Notfound from "./pages/404";
 import Resume from "./pages/resume";
 import Terminal from "./pages/terminal";
 import ClickSpark from "./components/common/ClickSpark";
+import CustomCursor from "./components/common/CustomCursor";
 
 import { TRACKING_ID } from "./data/tracking";
 import "./app.css";
@@ -28,7 +29,8 @@ function App() {
 
 	return (
 		<div className="App">
-			<ClickSpark sparkColor="var(--link-color)">
+			<CustomCursor />
+			<ClickSpark sparkColor="var(--pill-highlight-color, var(--link-color))">
 				<Routes>
 					<Route path="/portfolio/" element={<Terminal />} />
 					<Route path="/portfolio/home" element={<Homepage />} />

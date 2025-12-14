@@ -5,6 +5,7 @@
 	--tertiary-color: #acacb4;
 	--quaternary-color: #e4e4e7;
 	--link-color: #14b8a6;
+	--pill-highlight-color: var(--link-color);
 	/* ---------------------- */
 
 	/* ------- fonts ------- */
