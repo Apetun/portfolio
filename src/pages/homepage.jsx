@@ -133,9 +133,24 @@ const Homepage = () => {
 			const centerY = container.top + container.height / 2;
 			const dx = event.clientX - centerX;
 			const dy = event.clientY - centerY;
-			const maxOffset = 1;
-			const clamp = (value) => Math.max(Math.min(value, maxOffset), -maxOffset);
-			setPupilOffset({ x: dx / 70, y: clamp(dy / 80) });
+			// sensitivity (same as your current code)
+let ox = dx / 70;
+let oy = dy / 80;
+
+// max pupil travel in px (eye is wider than tall)
+const rx = 8.5; // horizontal radius (px)
+const ry = 3; // vertical radius (px)  (same "maxOffset=1" idea)
+
+// ellipse clamp: (x^2/rx^2) + (y^2/ry^2) <= 1
+const v = (ox * ox) / (rx * rx) + (oy * oy) / (ry * ry);
+if (v > 1) {
+  const s = 1 / Math.sqrt(v);
+  ox *= s;
+  oy *= s;
+}
+
+setPupilOffset({ x: ox, y: oy });
+
 		};
 
 		const handleMouseLeaveWindow = (event) => {
@@ -316,7 +331,7 @@ const Homepage = () => {
 												<div
 													className="homepage-pupil"
 													style={{
-														left: "33%",
+														left: "32.5%",
 														top: "44.2%",
 														transform: `translate(calc(-50% + ${pupilOffset.x}px), calc(-50% + ${pupilOffset.y}px))`
 													}}
@@ -324,7 +339,7 @@ const Homepage = () => {
 												<div
 													className="homepage-pupil"
 													style={{
-														left: "49.2%",
+														left: "48.7%",
 														top: "44.5%",
 														transform: `translate(calc(-50% + ${pupilOffset.x}px), calc(-50% + ${pupilOffset.y}px))`
 													}}
